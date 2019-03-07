@@ -22,7 +22,8 @@ export const retrieveFriends = () => dispatch => {
         headers: { Authorization: localStorage.getItem('token')}
     })
     .then(res => {
-        console.log("response", res.data)
+        // console.log("res", res.data)
+        dispatch({ type: SAVING_FRIENDS, payload: res.data })
     })
     .catch(err => console.log(err))
 }
