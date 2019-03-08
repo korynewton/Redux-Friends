@@ -2,14 +2,39 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { retrieveFriends } from '../actions' 
 
-const Friends = (props) => {
-  return (
-    <div>
-        <h3>Friends:</h3>
-        <button onClick={props.retrieveFriends}>Fetch Friends!</button>
-      {props.friends.map(item => <h5 key={item.id}>{item.name}</h5>)}
-    </div>
-  )
+class Friends extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            name : '',
+            age : '' ,
+            email: ''
+        }
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        })
+    }
+
+    render() {
+        return (
+            <div>
+                <h3>Friends:</h3>
+                <button onClick={this.props.retrieveFriends}>Fetch Friends!</button>
+              {this.props.friends.map(item => <h5 key={item.id}>{item.name}</h5>)}
+            
+                <form onSubmit={this.props.AddFriend}>
+                    <input onChange={this.handleChange} type="text" name="name" placeholder="name" value={this.state.name}/>
+                    <input onChange={this.handleChange} type="number" name="age" placeholder="age" value={this.state.age}/>
+                    <input onChange={this.handleChange} type="email" name="email" placeholder="email" value={this.state.email}/>
+                    <button>Add A Friend</button>
+                </form>
+            </div>
+          )
+    } 
+  
 }
 
 const mapStateToProps = state => {

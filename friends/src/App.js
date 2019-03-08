@@ -13,7 +13,7 @@ class App extends Component {
         <div className='App'>
           <h1>Friend App</h1>
           <Link to="/login">Login</Link>
-          <Link to="/friends">Protected Page</Link>
+          <Link to="/friends">View Friends</Link>
           <Route exact path='/login' component={Login} />
           <PrivateRoute path='/friends' component={Friends} />
         </div>
