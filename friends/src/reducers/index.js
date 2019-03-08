@@ -1,4 +1,4 @@
-import { LOGGING_IN, LOGIN_SUCCESS, FETCHING_FRIENDS, SAVING_FRIENDS } from '../actions'
+import { LOGGING_IN, LOGIN_SUCCESS, FETCHING_FRIENDS, SAVING_FRIENDS, UPDATING_FRIENDS, UPDATE_SUCCESSFUL, ERROR } from '../actions'
 
 const initialState = {
     friends: [],
@@ -33,9 +33,27 @@ export const rootReducer = (state = initialState, action) => {
                 fetchingfriends: false,
                 friends : action.payload
             }
-
-        
-
+        case UPDATING_FRIENDS:
+            return {
+                ...state,
+                updatingFriends:true
+            }
+        case UPDATE_SUCCESSFUL:
+        return {
+            ...state,
+            updatingFriends : false,
+            friends : action.payload
+        }
+        case ERROR:
+        return {
+            ...state,
+            deletingFriend : false,
+            fetchingfriends : false,
+            loggingIn : false,
+            savingFriends : false,
+            updatingFriends : false,
+            error: action.payload
+        }
         default:
             return state
     }

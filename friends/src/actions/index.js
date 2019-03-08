@@ -1,9 +1,13 @@
 import axios from 'axios'
+import axiosAuth from '../axiosAuth'
+
 export const LOGGING_IN = "LOGGING_IN"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
 export const FETCHING_FRIENDS = "FETCHING_FRIENDS"
 export const SAVING_FRIENDS = "SAVING_FRIENDS"
-
+export const UPDATING_FRIENDS = "UPDATING_FRIENDS"
+export const UPDATE_SUCCESSFUL = "UPDATE_SUCCESSFUL"
+export const ERROR = "ERROR"
 
 
 export const login = creds => dispatch => {
@@ -25,6 +29,20 @@ export const retrieveFriends = () => dispatch => {
         // console.log("res", res.data)
         dispatch({ type: SAVING_FRIENDS, payload: res.data })
     })
-    .catch(err => console.log(err))
+    .catch(err => {
+        dispatch( { type: ERROR, payload: "error" })
+    })
 }
    
+export const addFriend = friend => dispatch => {
+    console.log('inside Add friend')
+    dispatch({ type: UPDATING_FRIENDS })
+    axiosAuth().post('http://localhost:5000/api/friends', friend)
+    .then(res => {
+        dispatch({ type: UPDATE_SUCCESSFUL, payload: res.data})
+    })
+    .catch(err => {
+        console.log('ERR: ', err)
+        dispatch( { type: ERROR, payload: "error" })
+    })
+}
