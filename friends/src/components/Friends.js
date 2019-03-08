@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { retrieveFriends, addFriend } from '../actions' 
+import { retrieveFriends, addFriend, deleteFriend } from '../actions' 
 
 
 class Friends extends React.Component {
@@ -30,12 +30,25 @@ class Friends extends React.Component {
         })
     }
 
+    handleDelete = (e, id) => {
+        e.preventDefault();
+        this.props.deleteFriend(id)
+    } 
+
     render() {
         return (
             <div>
                 <h3>Friends:</h3>
                 <button onClick={this.props.retrieveFriends}>Fetch Friends!</button>
-              {this.props.friends.map(item => <h5 key={item.id}>{item.name}</h5>)}
+              {this.props.friends.map(item => {
+                  return (
+                      <div key={item.id}>
+                          <h5>{item.name}</h5>
+                          <button onClick={e => this.handleDelete(e, item.id)}>delete</button>
+                      </div>
+                  )
+              })
+            }
             
                 <form onSubmit={e => this.handleAdd(e)}>
                     <input onChange={this.handleChange} type="text" name="name" placeholder="name" value={this.state.name}/>
@@ -55,4 +68,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { retrieveFriends, addFriend } )(Friends)
+export default connect(mapStateToProps, { retrieveFriends, addFriend, deleteFriend } )(Friends)
