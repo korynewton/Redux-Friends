@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { retrieveFriends, addFriend, deleteFriend } from '../actions' 
+import { retrieveFriends, addFriend, deleteFriend, editfriend } from '../actions' 
 
 
 class Friends extends React.Component {
@@ -35,6 +35,22 @@ class Friends extends React.Component {
         this.props.deleteFriend(id)
     } 
 
+    populateEdit = (e, id)  => {
+        e.preventDefault()
+       const selectedFriend = this.props.friends.find(item => item.id === id)
+       this.setState({
+           name: selectedFriend.name,
+           age: selectedFriend.age,
+           email: selectedFriend.email
+       })
+
+    }
+
+    handleEdit = (e, friend) => {
+        e.preventDefault()
+        this.props.editFriend(friend)
+    }
+
     render() {
         return (
             <div>
@@ -45,6 +61,7 @@ class Friends extends React.Component {
                       <div key={item.id}>
                           <h5>{item.name}</h5>
                           <button onClick={e => this.handleDelete(e, item.id)}>delete</button>
+                          <button onClick={e => this.populateEdit(e, item.id)}>edit</button>
                       </div>
                   )
               })
@@ -55,6 +72,7 @@ class Friends extends React.Component {
                     <input onChange={this.handleChange} type="number" name="age" placeholder="age" value={this.state.age}/>
                     <input onChange={this.handleChange} type="email" name="email" placeholder="email" value={this.state.email}/>
                     <button>Add A Friend</button>
+                    <button onClick={e => this.handleEdit(e, item)}>Edit Existing Friend</button>
                 </form>
             </div>
           )
@@ -68,4 +86,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { retrieveFriends, addFriend, deleteFriend } )(Friends)
+export default connect(mapStateToProps, { retrieveFriends, addFriend, deleteFriend, editfriend } )(Friends)

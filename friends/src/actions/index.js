@@ -10,6 +10,7 @@ export const UPDATE_SUCCESSFUL = "UPDATE_SUCCESSFUL"
 export const ERROR = "ERROR"
 export const DELETING_FRIEND = 'DELETING_FRIEND'
 export const DELETE_SUCCESSFUL = "DELETE_SUCCESSFUL"
+export const UPDATING_FRIEND = 'UPDATING_FRIEND'
 
 
 export const login = creds => dispatch => {
@@ -56,5 +57,12 @@ export const deleteFriend = id => dispatch => {
         .then(res => {
             dispatch({type: DELETE_SUCCESSFUL, payload: res.data})
         })
+        .catch(err => console.log(err))
+}
+
+export const editfriend = friend => dispatch => {
+    dispatch({ type: UPDATING_FRIEND })
+    axiosAuth().put(`http://localhost:5000/api/friends/${friend.id}`)
+        .then(res => console.log(res.data))
         .catch(err => console.log(err))
 }
