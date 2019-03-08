@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { login } from '../actions'
+import { connect } from 'react-redux'
 
 export class Login extends Component {
     constructor() {
@@ -19,9 +21,15 @@ changeHandler = e => {
     })
 }
 
+requestLogin = (e) => {
+    e.preventDefault()
+    this.props.login(this.state.credentials)
+    this.props.history.push('/friends')
+}
+
   render() {
     return (
-      <form>
+      <form onSubmit={this.requestLogin}>
         <input onChange={this.changeHandler} type="text" placeholder="username" name="username" value={this.state.username}/>
         <input onChange={this.changeHandler} type="password" placeholder="password" name="password" value={this.state.password}/>
         <button>Sign in</button>
@@ -30,4 +38,4 @@ changeHandler = e => {
   }
 }
 
-export default Login
+export default connect(null, { login })(Login) 
